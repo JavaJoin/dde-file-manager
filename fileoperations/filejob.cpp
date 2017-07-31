@@ -282,8 +282,11 @@ DUrlList FileJob::doMoveCopyJob(const DUrlList &files, const DUrl &destination)
             }else if (m_jobType == Move){
                 if(m_isInSameDisk)
                 {
-                    if(copyDir(srcPath, tarDirPath, true, &targetPath))
-                        deleteDir(srcPath);
+                    if (!moveDir(srcPath, tarDirPath, &targetPath)) {
+#ifndef SW_LABEL
+                        if(copyDir(srcPath, tarDirPath, true, &targetPath))
+                            deleteDir(srcPath);
+#endif
                 }
                 else
                 {
